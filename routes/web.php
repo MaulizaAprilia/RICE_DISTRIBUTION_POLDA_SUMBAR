@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Adminpolres\AdminPolresController;
+use App\Http\Controllers\Adminpolres\UserPolsekController;
+use App\Http\Controllers\Adminpolres\PolresPenjualanController;
+use App\Http\Controllers\Adminpolres\StokPolresController;
 use App\Http\Controllers\Adminpolsek\AdminPolsekController;
 use App\Http\Controllers\Adminpolsek\PolsekUserController;
 use App\Http\Controllers\Adminpolsek\PolsekPenjualanController;
@@ -32,7 +35,6 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisterController::class, 'index'])->name('register');
     Route::post('/register', [RegisterController::class, 'register'])->name('register.process');
 
-    
 });
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -58,10 +60,6 @@ Route::middleware([ 'role:superadmin'])->prefix('superadmin')->name('superadmin.
     Route::put('/edit/akun/polsek/{id}', [AkunPolsekController::class, 'update'])->name('edit.akun.polsek.process');
     Route::delete('/hapus/akun/polsek/{id}', [AkunPolsekController::class, 'destroy'])->name('hapus.akun.polsek');
 
-
-
-
-
     Route::get('/akun/user', [AkunUserController::class, 'index'])->name('akun.user');
     Route::get('/detail/user/{id}', [AkunUserController::class, 'detailUser'])->name('detail.user');
     Route::put('/setujui/user/{id}', [AkunUserController::class, 'setujuiUser'])->name('setujui.user');
@@ -80,9 +78,6 @@ Route::middleware([ 'role:superadmin'])->prefix('superadmin')->name('superadmin.
     Route::put('/edit/polsek/{id}', [PolsekController::class, 'update'])->name('edit.polsek.process');
     Route::delete('/hapus/polsek/{id}', [PolsekController::class, 'destroy'])->name('hapus.polsek');
 
-
-
-
     Route::get('/ubah/password', [SuperAdminController::class, 'resetPage'])->name('ubah.password');
     Route::post('/ubah/password', [SuperAdminController::class, 'resetProcess'])->name('ubah.password.process');
 });
@@ -100,7 +95,6 @@ Route::middleware([ 'role:user'])->prefix('user')->name('user.')->group(function
 
     Route::post('/ubah/password', [ProfileController::class, 'updatePassword'])->name('ubah.password');
 
-
     Route::get('/masyarakat', [MasyarakatController::class, 'index'])->name('masyarakat');
     Route::get('/tambah/masyarakat', [MasyarakatController::class, 'showPage'])->name('tambah.masyarakat');
     Route::post('/tambah/masyarakat', [MasyarakatController::class, 'store'])->name('tambah.masyarakat.process');
@@ -108,8 +102,6 @@ Route::middleware([ 'role:user'])->prefix('user')->name('user.')->group(function
     Route::delete('/hapus/masyarakat/{id}', [MasyarakatController::class, 'destroy'])->name('hapus.masyarakat.process');
     Route::get('/edit/masyarakat/{id}', [MasyarakatController::class, 'showEdit'])->name('edit.masyarakat');
     Route::put('/edit/masyarakat/{id}', [MasyarakatController::class, 'update'])->name('update.masyarakat.process');
-
-
 });
 
 Route::middleware(['role:admin polda'])->prefix('adminpolda')->name('admin.polda.')->group(function () {
@@ -117,7 +109,20 @@ Route::middleware(['role:admin polda'])->prefix('adminpolda')->name('admin.polda
 });
 
 Route::middleware(['role:admin polres'])->prefix('adminpolres')->name('admin.polres.')->group(function () {
+    // Dashboard
     Route::get('/dashboard', [AdminPolresController::class, 'index'])->name('dashboard');
+
+    // User Polsek
+    Route::get('/userpolsek', [UserPolsekController::class, 'index'])->name('userpolsek');
+    Route::get('/userpolsek/{id}', [UserPolsekController::class, 'detail'])->name('userpolsek.detail');
+
+    // Polres Penjualan
+    Route::get('/polrespenjualan', [PolresPenjualanController::class, 'index'])->name('polrespenjualan');
+    Route::get('/polrespenjualan/{id}', [PolresPenjualanController::class, 'detail'])->name('detailpolrespenjualan');
+
+     // Stok Beras
+    Route::get('/stokpolres', [StokPolresController::class, 'index'])->name('stokpolres');
+    Route::post('/stokpolres', [StokPolresController::class, 'store'])->name('stok.store');
 });
 
 Route::middleware(['role:admin polsek'])->prefix('adminpolsek')->name('admin.polsek.')->group(function () {

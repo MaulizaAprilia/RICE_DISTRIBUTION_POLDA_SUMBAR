@@ -44,7 +44,6 @@ class PolsekUserController extends Controller
         return view('adminpolsek.akun-user', compact('users'));
     }
 
-
     /**
      * Menampilkan detail user di polsek admin yang login
      */

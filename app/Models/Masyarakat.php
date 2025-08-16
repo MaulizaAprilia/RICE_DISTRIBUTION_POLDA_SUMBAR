@@ -16,8 +16,10 @@ class Masyarakat extends Model
         'jumlah_beras',
     ];
 
+    // Relasi ke User
     public function user()
-{
-    return $this->belongsTo(User::class, 'created_by');
-}
+    {
+        // pastikan 'created_by' adalah foreign key ke users.id
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }
